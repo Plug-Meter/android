@@ -1,6 +1,6 @@
 package plugmeter.plugmeterapp;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -15,7 +15,7 @@ import org.apache.http.Header;
 import java.io.UnsupportedEncodingException;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     @ViewById
     TextView textView;
