@@ -33,7 +33,7 @@ public class Network {
     public void connectToAP(String ssid, String passkey) {
         WifiConfiguration wifiConfig = new WifiConfiguration();
         wifiConfig.SSID = String.format("\"%s\"", ssid);
-        wifiConfig.preSharedKey = String.format("\"%s\"", passkey);
+        //wifiConfig.preSharedKey = String.format("\"%s\"", passkey);
 
         WifiManager wifiManager = ((WifiManager) App.inst().getSystemService(Context.WIFI_SERVICE));
         int netId = wifiManager.addNetwork(wifiConfig);
