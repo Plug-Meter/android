@@ -11,6 +11,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 public class Network {
 
     public static final String SERVER_IP = "http://192.168.4.1/";
+    public static final String PM_SSID = "ilhamm";
+    public static final String PM_PASS = "265414mm";
 
     private AsyncHttpClient client;
 
@@ -28,7 +30,7 @@ public class Network {
         return wifiInfo.getSSID();
     }
 
-    public boolean connectToAP(String ssid, String passkey) {
+    public void connectToAP(String ssid, String passkey) {
         WifiConfiguration wifiConfig = new WifiConfiguration();
         wifiConfig.SSID = String.format("\"%s\"", ssid);
         wifiConfig.preSharedKey = String.format("\"%s\"", passkey);
@@ -38,10 +40,10 @@ public class Network {
         int netId = wifiManager.addNetwork(wifiConfig);
         wifiManager.disconnect();
         wifiManager.enableNetwork(netId, true);
-        return wifiManager.reconnect();
+        wifiManager.reconnect();
     }
 
-    public boolean connectToPlugMeterAP() {
-        return connectToAP("PlugMeter", "plugmeter");
+    public void connectToPlugMeterAP() {
+        connectToAP(PM_SSID, PM_PASS);
     }
 }
