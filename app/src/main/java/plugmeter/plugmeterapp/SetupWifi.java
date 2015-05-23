@@ -5,20 +5,20 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.apache.http.Header;
 
 @EActivity(R.layout.activity_setup_wifi)
 public class SetupWifi extends AppCompatActivity {
 
+    public static final int MAX_RETRY = 4;
+    public static final int RETRY_DELAY = 3000;
+
     ProgressDialog pd;
 
     @AfterViews
-    protected void aoCriar() {
-        pd = ProgressDialog.show(this, "", "Conectando na rede Plug Meter", true, true);
+    public void afterViews() {
+        pd = ProgressDialog.show(this, "", getString(R.string.setupwifi_after_views) + Network.PM_SSID, true, true);
 
         App.getNet().connectToPlugMeterAP();
 
@@ -29,8 +29,8 @@ public class SetupWifi extends AppCompatActivity {
             @Override
             public void run() {
                 if (!App.getNet().getWifiName().equals(Network.PM_SSID)) {
-                    if (++retryNo < 3) {
-                        handler.postDelayed(this, 3000);
+                    if (++retryNo < MAX_RETRY) {
+                        handler.postDelayed(this, RETRY_DELAY);
                     } else {
                         onFailure();
                     }
@@ -39,25 +39,17 @@ public class SetupWifi extends AppCompatActivity {
                 }
             }
         };
-        handler.postDelayed(r, 3000);
+        handler.postDelayed(r, RETRY_DELAY);
     }
 
     void onSucess() {
-        App.getNet().get("visibleNetworks", new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+        pd.dismiss();
 
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
+        Toast.makeText(this, getString(R.string.setupwifi_onsuccess) + Network.PM_SSID, Toast.LENGTH_SHORT).show();
     }
 
     private void onFailure() {
-        Toast.makeText(this, "Não foi possível conectar na rede Plug Meter", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.setupwifi_onfailure) + Network.PM_SSID, Toast.LENGTH_SHORT).show();
         pd.dismiss();
         finish();
     }

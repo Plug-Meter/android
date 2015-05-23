@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStart() {
-                textView.setText("onStart");
+                textView.setText(getString(R.string.main_onstart));
             }
 
             @Override
@@ -39,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                textView.setText("Plug Meter não encontrado\nToque para configurar");
+                textView.setText(getString(R.string.main_onFailure));
             }
 
             @Override
             public void onRetry(int retryNo) {
-                textView.setText("onRetry");
+                textView.setText(getString(R.string.main_onretry));
             }
         });
     }
