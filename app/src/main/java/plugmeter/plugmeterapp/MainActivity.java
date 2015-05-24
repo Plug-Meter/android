@@ -1,6 +1,8 @@
 package plugmeter.plugmeterapp;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -17,10 +19,17 @@ import java.io.UnsupportedEncodingException;
 public class MainActivity extends AppCompatActivity {
 
     @ViewById
+    Button button;
+
+    @ViewById
     TextView textView;
 
     @AfterViews
     public void afterViews() {
+        getCurrent();
+    }
+
+    private void getCurrent() {
         App.getNet().get("current", new AsyncHttpResponseHandler() {
 
             @Override
@@ -32,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
                     textView.setText(new String(response, "UTF-8"));
+                    button.setVisibility(View.GONE);
                 } catch (UnsupportedEncodingException e) {
                     textView.setText("UnsupportedEncodingException");
                 }
@@ -40,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 textView.setText(getString(R.string.main_onFailure));
+                button.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -51,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Click
     public void textView() {
+        getCurrent();
+    }
+
+    @Click
+    public void button() {
         SetupWifi_.intent(this).start();
     }
 }

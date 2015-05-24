@@ -4,10 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_setup_wifi">SetupWifi</string>
-    <string name="main_onFailure">Plug Meter não encontrado\nToque para configurar</string>
-    <string name="main_onstart">onStart</string>
+    <string name="main_onFailure">Plug Meter não encontrado</string>
+    <string name="main_onstart">Buscando corrente</string>
     <string name="main_onretry">onRetry</string>
     <string name="setupwifi_after_views">"Conectando na rede "</string>
     <string name="setupwifi_onsuccess">"Conectado na rede "</string>
     <string name="setupwifi_onfailure">"Não foi possível conectar na rede "</string>
+    <string name="main_btn_setup">Configurar rede</string>
 </resources>

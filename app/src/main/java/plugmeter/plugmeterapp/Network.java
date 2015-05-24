@@ -11,7 +11,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 public class Network {
 
     public static final String SERVER_IP = "http://192.168.4.1/";
-    public static final String PM_SSID = "Plug Meter";
+    public static final String PM_SSID = "Plug Meter 1";
     public static final String PM_PASS = "12345";
 
     private AsyncHttpClient client;

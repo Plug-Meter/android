@@ -44,13 +44,12 @@ public class SetupWifi extends AppCompatActivity {
 
     void onSucess() {
         pd.dismiss();
-
         Toast.makeText(this, getString(R.string.setupwifi_onsuccess) + Network.PM_SSID, Toast.LENGTH_SHORT).show();
     }
 
     private void onFailure() {
-        Toast.makeText(this, getString(R.string.setupwifi_onfailure) + Network.PM_SSID, Toast.LENGTH_SHORT).show();
         pd.dismiss();
+        Toast.makeText(this, getString(R.string.setupwifi_onfailure) + Network.PM_SSID, Toast.LENGTH_SHORT).show();
         finish();
     }
 
