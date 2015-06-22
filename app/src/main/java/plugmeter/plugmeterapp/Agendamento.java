@@ -27,13 +27,13 @@ public class Agendamento extends AppCompatActivity {
 
     @AfterViews
     public void afterViews() {
-        switch1.setChecked(true);
+        switch1.setChecked(false);
         App.getNet().get("relay", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String result = new String(responseBody, "UTF-8");
-                    switch1.setChecked(!result.equals("on"));
+                    switch1.setChecked(result.equals("on"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

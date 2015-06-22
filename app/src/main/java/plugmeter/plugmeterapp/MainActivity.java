@@ -1,22 +1,17 @@
 package plugmeter.plugmeterapp;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
@@ -34,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     @AfterViews
     public void afterViews() {
-        getCurrent();
+        getEstimate();
 
         /*
         App.getNet().get("", new JsonHttpResponseHandler() {
@@ -58,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
-    private void getCurrent() {
-        App.getNet().get("current", new AsyncHttpResponseHandler() {
+    private void getEstimate() {
+        App.getNet().get("custo_estimado", new AsyncHttpResponseHandler() {
 
             @Override
             public void onStart() {
@@ -79,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 textView.setText(getString(R.string.main_onFailure));
-                button.setVisibility(View.VISIBLE);
+                //button.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Click
     public void textView() {
-        getCurrent();
+        getEstimate();
     }
 
     @Click
