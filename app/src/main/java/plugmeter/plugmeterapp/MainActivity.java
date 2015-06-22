@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @ViewById
     Button agendar;
 
+
     @AfterViews
     public void afterViews() {
         getEstimate();
@@ -52,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
         });
         */
     }
-
+    private String convertToCurrency(String value){
+        Float number = Float.parseFloat(value);
+        String converted = String.format("%4.3f", number);
+        String currency = getString(R.string.realBRLCurrency) + converted;
+        return currency;
+    }
     private void getEstimate() {
         App.getNet().get("custo_estimado", new AsyncHttpResponseHandler() {
 
@@ -64,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
-                    textView.setText(new String(response, "UTF-8"));
+                    String responseText = new String(response, "UTF-8");
+                    textView.setText(convertToCurrency(responseText));
+
                     button.setVisibility(View.GONE);
                 } catch (UnsupportedEncodingException e) {
                     textView.setText("UnsupportedEncodingException");
@@ -90,8 +98,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Click
-    public void agendar() {
+    public void agendar(){
         Agendamento_.intent(this).start();
+
+
+
     }
 
     @Click
