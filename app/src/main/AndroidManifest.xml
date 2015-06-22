@@ -25,6 +25,10 @@
             android:name=".SetupWifi_"
             android:label="@string/title_activity_setup_wifi" >
         </activity>
+        <activity
+            android:name=".Agendamento_"
+            android:label="@string/title_activity_agendamento" >
+        </activity>
     </application>
 
 </manifest>

@@ -30,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
 
     @ViewById
-    Switch switch1;
+    Button agendar;
 
     @AfterViews
     public void afterViews() {
+        getCurrent();
+
+        /*
         App.getNet().get("", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     private void getCurrent() {
@@ -86,37 +90,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Click
-    public void switch1() {
-        if (!switch1.isChecked()) {
-            App.getNet().post("off", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.i("plugmeter", "off onSuccess");
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Log.i("plugmeter", "off onFailure");
-                }
-            });
-        } else {
-            App.getNet().post("on", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.i("plugmeter", "on onSuccess");
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Log.i("plugmeter", "on onFailure");
-                }
-            });
-        }
+    public void textView() {
+        getCurrent();
     }
 
     @Click
-    public void textView() {
-        getCurrent();
+    public void agendar() {
+        Agendamento_.intent(this).start();
     }
 
     @Click

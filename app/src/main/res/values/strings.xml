@@ -11,4 +11,8 @@
     <string name="setupwifi_onsuccess">"Conectado na rede "</string>
     <string name="setupwifi_onfailure">"Não foi possível conectar na rede "</string>
     <string name="main_btn_setup">Configurar rede</string>
+    <string name="title_activity_agendamento">Agendamento</string>
+    <string name="switch_rele">Rele</string>
+    <string name="btn_agendar">Agendar</string>
+    <string name="btn_ok">OK</string>
 </resources>
