@@ -8,12 +8,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
@@ -31,9 +34,24 @@ public class MainActivity extends AppCompatActivity {
 
     @AfterViews
     public void afterViews() {
-        getCurrent();
+        App.getNet().get("", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
 
-        switch1.setChecked(true);
+                try {
+                    String current = response.getString("corrente");
+                    String rele = response.getString("rele");
+
+                    switch1.setChecked(rele.equals("on"));
+                    Log.i("plugmeter", rele);
+
+                    textView.setText(current);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getCurrent() {
@@ -69,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Click
     public void switch1() {
-        if (switch1.isChecked()) {
+        if (!switch1.isChecked()) {
             App.getNet().post("off", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
