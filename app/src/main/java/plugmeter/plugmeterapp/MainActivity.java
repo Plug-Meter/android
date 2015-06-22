@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     final Handler h = new Handler();
     Runnable r;
 
+    @AfterViews
+    public void afterViews() {
+        updateCost();
+    }
+
     private void updateCost() {
         r = new Runnable() {
             @Override
@@ -51,13 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         h.removeCallbacksAndMessages(null);
         Log.i(App.LOGTAG, "onPause");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //h.post(r);
     }
 
     private void getEstimate() {
