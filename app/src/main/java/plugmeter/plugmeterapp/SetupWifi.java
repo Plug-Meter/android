@@ -45,6 +45,7 @@ public class SetupWifi extends AppCompatActivity {
     void onSucess() {
         pd.dismiss();
         Toast.makeText(this, getString(R.string.setupwifi_onsuccess) + Network.PM_SSID, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void onFailure() {

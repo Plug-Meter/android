@@ -1,8 +1,10 @@
 package plugmeter.plugmeterapp;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -24,9 +26,14 @@ public class MainActivity extends AppCompatActivity {
     @ViewById
     TextView textView;
 
+    @ViewById
+    Switch switch1;
+
     @AfterViews
     public void afterViews() {
         getCurrent();
+
+        switch1.setChecked(true);
     }
 
     private void getCurrent() {
@@ -58,6 +65,35 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(getString(R.string.main_onretry));
             }
         });
+    }
+
+    @Click
+    public void switch1() {
+        if (switch1.isChecked()) {
+            App.getNet().post("off", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Log.i("plugmeter", "off onSuccess");
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Log.i("plugmeter", "off onFailure");
+                }
+            });
+        } else {
+            App.getNet().post("on", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Log.i("plugmeter", "on onSuccess");
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Log.i("plugmeter", "on onFailure");
+                }
+            });
+        }
     }
 
     @Click
