@@ -1,6 +1,8 @@
 package plugmeter.plugmeterapp;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,31 +29,33 @@ public class MainActivity extends AppCompatActivity {
     @ViewById
     Button agendar;
 
+    final Handler h = new Handler();
+    Runnable r;
 
     @AfterViews
     public void afterViews() {
-        getEstimate();
+        updateCost();
+    }
 
-        /*
-        App.getNet().get("", new JsonHttpResponseHandler() {
+    private void updateCost() {
+        r = new Runnable() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-                try {
-                    String current = response.getString("corrente");
-                    String rele = response.getString("rele");
-
-                    switch1.setChecked(rele.equals("on"));
-                    Log.i("plugmeter", rele);
-
-                    textView.setText(current);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void run() {
+                getEstimate();
+                Log.i(App.LOGTAG, "runnable");
+                h.postDelayed(this, App.UPDATE_FREQ);
             }
-        });
-        */
+        };
+
+        h.post(r);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        h.removeCallbacksAndMessages(null);
+        Log.i(App.LOGTAG, "onPause");
     }
     private String convertToCurrency(String value){
         Float number = Float.parseFloat(value);
@@ -100,9 +104,6 @@ public class MainActivity extends AppCompatActivity {
     @Click
     public void agendar(){
         Agendamento_.intent(this).start();
-
-
-
     }
 
     @Click

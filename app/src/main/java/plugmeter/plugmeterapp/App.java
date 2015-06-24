@@ -7,6 +7,9 @@ public class App extends Application {
     private static App inst;
     private static Network network;
 
+    static String LOGTAG = "pmlogtag";
+    public static final int UPDATE_FREQ = 10000;//10 SECONDS
+
     public App() {
         inst = this;
     }
