@@ -1,60 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="plugmeter.plugmeterapp.Agendamento">
+    tools:context="plugmeter.plugmeterapp.Schedule">
 
     <TextView
+        android:id="@+id/timerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_above="@+id/etxt_timerValue"
+        android:layout_centerHorizontal="true"
         android:text="@string/timerLabel"
-        android:id="@+id/timerLabel"
-        android:textSize="40sp"
-        android:layout_above="@+id/editText"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="40sp" />
 
     <EditText
+        android:id="@+id/etxt_timerValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_centerVertical="true"
-        android:hint="@string/timerFieldHint"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/button2"
-        android:layout_toStartOf="@+id/button2" />
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/btn_schedule"
+        android:layout_toStartOf="@+id/btn_schedule"
+        android:ems="10"
+        android:hint="@string/timerFieldHint"
+        android:inputType="number" />
 
     <Button
+        android:id="@+id/btn_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_ok"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/editText"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/etxt_timerValue"
+        android:text="@string/btn_ok" />
 
     <Switch
+        android:id="@+id/switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/switch_rele"
-        android:id="@+id/switch1"
-        android:checked="false"
-        android:textSize="30sp"
-        android:layout_below="@+id/button2"
-        android:layout_marginTop="46dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:singleLine="false"
-        android:background="#ff9e9eaa"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:splitTrack="false"
-        android:showText="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_schedule"
+        android:layout_marginTop="46dp"
+        android:background="#ff9e9eaa"
+        android:checked="false"
         android:padding="5dp"
+        android:singleLine="false"
+        android:text="@string/switch_rele"
         android:textColor="@android:color/background_light"
-        android:textOn="Ligado"
-        android:textOff="Desligado" />
+        android:textOff="@string/switch_off"
+        android:textOn="@string/swich_on"
+        android:textSize="30sp" />
 
 </RelativeLayout>

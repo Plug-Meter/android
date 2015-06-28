@@ -7,8 +7,7 @@ public class App extends Application {
     private static App inst;
     private static Network network;
 
-    static String LOGTAG = "pmlogtag";
-    public static final int UPDATE_FREQ = 10000;//10 SECONDS
+    public static String LOGTAG = "pmlogtag";
 
     public App() {
         inst = this;
@@ -18,9 +17,10 @@ public class App extends Application {
         return inst;
     }
 
-    public static Network getNet() {
+    public Network getNet() {
         if (network == null)
             network = new Network();
+
         return network;
     }
 }

@@ -4,19 +4,14 @@ import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
-import java.io.UnsupportedEncodingException;
-
 public class Network {
 
-    public static final String SERVER_IP = "http://10.10.10.83/";
-    public static final String PM_SSID = "hsNCE";
+    public static final String SERVER_IP = "http://192.168.4.1/";
+    public static final String PM_SSID = "Plug Meter 1";
     public static final String PM_PASS = "12345";
 
     private AsyncHttpClient client;

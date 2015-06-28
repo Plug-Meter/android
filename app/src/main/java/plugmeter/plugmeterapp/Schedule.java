@@ -17,18 +17,19 @@ import org.apache.http.Header;
 import java.io.UnsupportedEncodingException;
 
 @EActivity(R.layout.activity_agendamento)
-public class Agendamento extends AppCompatActivity {
+public class Schedule extends AppCompatActivity {
 
     @ViewById
-    EditText editText;
+    EditText etxt_timerValue;
 
     @ViewById
     Switch switch1;
 
     @AfterViews
     public void afterViews() {
-        switch1.setChecked(false);
-        App.getNet().get("relay", new AsyncHttpResponseHandler() {
+        switch1.setChecked(true);
+
+        App.inst().getNet().get("relay", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -41,57 +42,45 @@ public class Agendamento extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("plugmeter", "agendamento onfailure");
+                Log.i(App.LOGTAG, "Schedule onFailure");
             }
         });
     }
 
     @Click
-    public void button2() {
+    public void btn_schedule() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                App.getNet().post("off", new AsyncHttpResponseHandler() {
+                App.inst().getNet().post("off", new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        Log.i("plugmeter", "agendamento success");
+                        Log.i(App.LOGTAG, "Schedule onSuccess");
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Log.i("plugmeter", "agendamento failure");
+                        Log.i(App.LOGTAG, "Schedule onFailure");
                     }
                 });
             }
-        }, Integer.parseInt(editText.getText().toString()) * 1000);
+        }, Integer.parseInt(etxt_timerValue.getText().toString()) * 1000);
     }
 
     @Click
     public void switch1() {
-        if (!switch1.isChecked()) {
-            App.getNet().post("off", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.i("plugmeter", "off onSuccess");
-                }
+        final String postPath = switch1.isChecked() ? "off" : "on";
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Log.i("plugmeter", "off onFailure");
-                }
-            });
-        } else {
-            App.getNet().post("on", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.i("plugmeter", "on onSuccess");
-                }
+        App.inst().getNet().post(postPath, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.i(App.LOGTAG, postPath + " onSuccess");
+            }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Log.i("plugmeter", "on onFailure");
-                }
-            });
-        }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i(App.LOGTAG, postPath + " onFailure");
+            }
+        });
     }
 }

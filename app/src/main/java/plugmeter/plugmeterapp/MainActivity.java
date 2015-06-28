@@ -3,7 +3,6 @@ package plugmeter.plugmeterapp;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,17 +19,15 @@ import java.io.UnsupportedEncodingException;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
-    @ViewById
-    Button button;
+    public static final int UPDATE_FREQ = 10000;//10 SECONDS
 
     @ViewById
-    TextView textView;
+    TextView txtview_cost;
 
     @ViewById
-    Button agendar;
+    Button btn_schedule;
 
     final Handler h = new Handler();
-    Runnable r;
 
     @AfterViews
     public void afterViews() {
@@ -38,76 +35,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateCost() {
-        r = new Runnable() {
+        Runnable r = new Runnable() {
             @Override
             public void run() {
+                Log.i(App.LOGTAG, "updateCost");
                 getEstimate();
-                Log.i(App.LOGTAG, "runnable");
-                h.postDelayed(this, App.UPDATE_FREQ);
+                h.postDelayed(this, UPDATE_FREQ);
             }
         };
 
         h.post(r);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        h.removeCallbacksAndMessages(null);
-        Log.i(App.LOGTAG, "onPause");
-    }
-    private String convertToCurrency(String value){
-        Float number = Float.parseFloat(value);
-        String converted = String.format("%4.3f", number);
-        String currency = getString(R.string.realBRLCurrency) + converted;
-        return currency;
-    }
     private void getEstimate() {
-        App.getNet().get("custo_estimado", new AsyncHttpResponseHandler() {
+        App.inst().getNet().get("custo_estimado", new AsyncHttpResponseHandler() {
 
             @Override
             public void onStart() {
-                textView.setText(getString(R.string.main_onstart));
+                txtview_cost.setText(getString(R.string.main_onstart));
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
                     String responseText = new String(response, "UTF-8");
-                    textView.setText(convertToCurrency(responseText));
-
-                    button.setVisibility(View.GONE);
+                    txtview_cost.setText(convertToCurrency(responseText));
                 } catch (UnsupportedEncodingException e) {
-                    textView.setText("UnsupportedEncodingException");
+                    txtview_cost.setText("UnsupportedEncodingException");
                 }
+            }
+
+            private String convertToCurrency(String value) {
+                Float number = Float.parseFloat(value);
+                String converted = String.format("%4.3f", number);
+                return getString(R.string.realBRLCurrency) + converted;
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                textView.setText(getString(R.string.main_onFailure));
-                //button.setVisibility(View.VISIBLE);
+                txtview_cost.setText(getString(R.string.main_onFailure));
             }
 
             @Override
             public void onRetry(int retryNo) {
-                textView.setText(getString(R.string.main_onretry));
+                txtview_cost.setText(getString(R.string.main_onretry));
             }
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(App.LOGTAG, "main onPause");
+
+        h.removeCallbacksAndMessages(null);
+    }
+
     @Click
-    public void textView() {
+    public void txtview_cost() {
         getEstimate();
     }
 
     @Click
-    public void agendar(){
-        Agendamento_.intent(this).start();
-    }
-
-    @Click
-    public void button() {
-        SetupWifi_.intent(this).start();
+    public void btn_schedule() {
+        Schedule_.intent(this).start();
     }
 }
